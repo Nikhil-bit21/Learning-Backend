@@ -1,0 +1,16 @@
+Rest Api -> JSON
+
+Get /users -> list all users
+
+Get /users/1 -> get user with id 1
+Get /users/2 -> get user with id 2
+
+Get /users/:id -> Dynamic path parameter
+:id -> this is a dynamic variable 
+
+Post /users -> create new user
+
+Patch /users/1 -> update user with id 1
+
+Delete /users/1 -> delete user with id 1
+
