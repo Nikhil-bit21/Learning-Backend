@@ -1,10 +1,17 @@
 const express = require('express');
-const urlRoute = require('./Routes/url')  
+const path = require('path');
 const {connectToDb} = require('./connection');
 const {URL} = require('./Models/url')
 
+const urlRoute = require('./Routes/url') 
+const staticRouter = require('./Routes/static');
+const userRouter = require('./Routes/user');
+
 const app = express();
 const PORT = 3000;
+
+app.set("view engine","ejs");
+app.set("views",path.resolve("./Short_Url/Views"));
 
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
@@ -16,8 +23,10 @@ connectToDb('mongodb://127.0.0.1:27017/Url-Shortner').then(()=>{
 });
 
 app.use('/url',urlRoute);
+app.use('/',staticRouter)
+app.use('/user',userRouter)
 
-app.get('/:shortId',async(req,res)=>{
+app.get('/url/:shortId',async(req,res)=>{
     const shortId = req.params.shortId;
     const entry = await URL.findOneAndUpdate({
         shortId,
@@ -29,7 +38,7 @@ app.get('/:shortId',async(req,res)=>{
             },
         },
     },);
-    res.redirect(entry.redirectUrl)
+    res.redirect(entry.redirectUrl);
 })
 
 app.listen(PORT,()=>{

@@ -12,7 +12,9 @@ async function handleGenerateNewShortUrl(req,res){
         redirectUrl:body.url,
         visitedHistory :[],
     });
-    return res.json({id:shortId});
+    return res.render('home',{
+        id:shortId,
+    })
 }
 
 async function handelGetAnalytics(req,res){
